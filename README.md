@@ -9,6 +9,7 @@
 📦unis-backend
  ┣ 📂src
  ┣ 📂config
+ ┣ 📂global
  ┣ 📂controller
  ┣ 📂service
  ┣ 📂domain
@@ -91,3 +92,7 @@ docs: README 브랜치 전략 추가
 - 코드 스타일은 프로젝트 내 formatter 또는 기존 코드 스타일을 따릅니다.
 - 외부 API 키나 비밀 설정 정보는 `.env` 또는 환경변수로 관리하고, 절대 커밋하지 않습니다.
 - 배포는 `main` 브랜치에 머지될 때 자동으로 수행됩니다 (Docker + GitHub Actions).
+- 환경별 설정 파일은 application-{profile}.properties로 관리하며, 활성화는 spring.profiles.active로 지정합니다.
+  - 예: application-local.properties, application-prod.properties
+  - 로컬 실행 시: application.properties에 spring.profiles.active=local 명시
+  - 배포 환경은 GitHub Actions에서 환경변수로 prod 지정
