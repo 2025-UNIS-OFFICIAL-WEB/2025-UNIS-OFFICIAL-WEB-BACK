@@ -1,3 +1,47 @@
+# 🔗 UNIS OFFICIAL WEBSITE (Backend)
+
+📮 배포 주소: 
+> UNIS 공식 웹사이트 백엔드 저장소입니다.
+
+## 📁 프로젝트 구조
+
+```
+📦unis-backend
+ ┣ 📂src
+ ┣ 📂config
+ ┣ 📂controller
+ ┣ 📂service
+ ┣ 📂domain
+ ┣ 📂repository
+ ┣ 📂dto
+ ┗ 📜UnisWebServerBackApplication.java
+```
+
+## 🚀 기술 스택
+
+- Java 17 / Spring Boot 3.x
+- JPA / MySQL
+- Gradle
+- Docker / GitHub Actions
+- AWS EC2 (배포용)
+
+## 🔄 자동 배포 (GitHub Actions)
+
+- `main` 브랜치 푸시 시 EC2 서버에 자동 배포
+- `.github/workflows/deploy.yml` 참고
+
+## 🧪 API 명세
+
+> Swagger 문서화 예정
+
+## 🧑‍💻 기여자
+
+| 이름 | 역할 |
+|------|------|
+| 김겨레 | 코드 리뷰 및 메인에 머지 |
+| 이시은 | 추가 필요 |
+| 손하늘 | 추가 필요 |
+
 ## ✅ Git 협업 규칙
 
 ### 1. 브랜치 전략
@@ -10,8 +54,6 @@
 | `hotfix/*` | 운영 긴급 패치용    | ✅ `main`으로 직접 PR |
 
 > 예시: `feat/admin-login`, `fix/project-list`, `hotfix/link-error`
-
----
 
 ### 2. 커밋 컨벤션
 
@@ -36,8 +78,6 @@ fix: 프로젝트 리스트 출력 오류 수정
 docs: README 브랜치 전략 추가
 ```
 
----
-
 ### 3. 협업 규칙
 
 - 모든 작업은 `feat/*`, `fix/*` 등의 **기능/이슈 단위 브랜치**에서 진행합니다.
@@ -45,8 +85,6 @@ docs: README 브랜치 전략 추가
 - PR에는 작업 내용 간략히 작성 + reviewer 지정
 - 커밋은 가능한 **의미 있는 단위로 분리**해서 작성합니다.
 - 머지 권한자는 코드 리뷰 후 직접 머지합니다.
-
----
 
 ### 4. 기타
 
