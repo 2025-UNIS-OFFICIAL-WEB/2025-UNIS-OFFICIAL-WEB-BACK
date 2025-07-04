@@ -32,13 +32,11 @@ jobs:
                   aws ecr get-login-password --region ap-northeast-2 | \
                   docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
 
-            - name: Build and Push API Image
+            - name: Build and Push Docker Images
               run: |
                   docker build -t ${{ secrets.ECR_REPOSITORY }}:api-server ./api-server
                   docker push ${{ secrets.ECR_REPOSITORY }}:api-server
 
-            - name: Build and Push ADMIN Image
-              run: |
                   docker build -t ${{ secrets.ECR_REPOSITORY }}:admin-server ./admin-server
                   docker push ${{ secrets.ECR_REPOSITORY }}:admin-server
 
@@ -47,24 +45,22 @@ jobs:
                   echo "${{ secrets.EC2_KEY }}" | base64 --decode > key.pem
                   chmod 400 key.pem
 
-                  ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << EOF
-                    echo "SPRING_DATASOURCE_URL=${{ secrets.DB_URL }}" > .env
-                    echo "SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
-                    echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-
+                  ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
                     docker pull ${{ secrets.ECR_REPOSITORY }}:api-server
                     docker pull ${{ secrets.ECR_REPOSITORY }}:admin-server
 
-                    docker stop api-server || true
-                    docker rm api-server || true
-                    docker stop admin-server || true
-                    docker rm admin-server || true
+                    docker rm -f api-server || true
+                    docker rm -f admin-server || true
 
                     docker run -d --name api-server \
-                      --env-file .env \
+                      -e SPRING_DATASOURCE_URL=${{ secrets.DB_URL }} \
+                      -e SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }} \
+                      -e SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }} \
                       -p 8080:8080 ${{ secrets.ECR_REPOSITORY }}:api-server
 
                     docker run -d --name admin-server \
-                      --env-file .env \
+                      -e SPRING_DATASOURCE_URL=${{ secrets.DB_URL }} \
+                      -e SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }} \
+                      -e SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }} \
                       -p 8081:8081 ${{ secrets.ECR_REPOSITORY }}:admin-server
                   EOF
