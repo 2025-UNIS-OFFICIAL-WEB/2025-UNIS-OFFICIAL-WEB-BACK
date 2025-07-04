@@ -1,4 +1,4 @@
-name: Deploy to EC2 via Docker
+name: Deploy to EC2 via Docker (API + ADMIN)
 
 on:
     push:
@@ -18,9 +18,6 @@ jobs:
                   java-version: '21'
                   distribution: 'temurin'
 
-            - name: Set up Docker
-              uses: docker/setup-buildx-action@v3
-
             - name: Configure AWS CLI
               run: |
                   aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -35,10 +32,15 @@ jobs:
                   aws ecr get-login-password --region ap-northeast-2 | \
                   docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY }}
 
-            - name: Build and Push Docker Image
+            - name: Build and Push API Image
               run: |
-                  docker build -t ${{ secrets.ECR_REPOSITORY }} .
-                  docker push ${{ secrets.ECR_REPOSITORY }}
+                  docker build -t ${{ secrets.ECR_REPOSITORY }}:api-server ./api-server
+                  docker push ${{ secrets.ECR_REPOSITORY }}:api-server
+
+            - name: Build and Push ADMIN Image
+              run: |
+                  docker build -t ${{ secrets.ECR_REPOSITORY }}:admin-server ./admin-server
+                  docker push ${{ secrets.ECR_REPOSITORY }}:admin-server
 
             - name: Deploy on EC2
               run: |
@@ -50,12 +52,19 @@ jobs:
                     echo "SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
                     echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
 
-                    docker pull ${{ secrets.ECR_REPOSITORY }}
+                    docker pull ${{ secrets.ECR_REPOSITORY }}:api-server
+                    docker pull ${{ secrets.ECR_REPOSITORY }}:admin-server
 
-                    docker stop spring-app || true
-                    docker rm spring-app || true
+                    docker stop api-server || true
+                    docker rm api-server || true
+                    docker stop admin-server || true
+                    docker rm admin-server || true
 
-                    docker run -d --name spring-app \
+                    docker run -d --name api-server \
                       --env-file .env \
-                      -p 8080:8080 ${{ secrets.ECR_REPOSITORY }}
+                      -p 8080:8080 ${{ secrets.ECR_REPOSITORY }}:api-server
+
+                    docker run -d --name admin-server \
+                      --env-file .env \
+                      -p 8081:8081 ${{ secrets.ECR_REPOSITORY }}:admin-server
                   EOF

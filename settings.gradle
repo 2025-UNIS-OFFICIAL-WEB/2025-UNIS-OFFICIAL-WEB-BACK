@@ -1,1 +1,2 @@
-rootProject.name = 'unis-web-server-back'
+rootProject.name = 'unis-backend'
+include 'common', 'api-server', 'admin-server'
