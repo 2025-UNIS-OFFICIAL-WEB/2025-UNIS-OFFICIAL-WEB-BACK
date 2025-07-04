@@ -1,5 +1,7 @@
 # 🔗 UNIS OFFICIAL WEBSITE (Backend)
 
+![CI/CD](https://github.com/2025-UNIS-OFFICIAL-WEB/2025-UNIS-OFFICIAL-WEB-BACK/actions/workflows/deploy.yml/badge.svg)
+
 📮 배포 주소: 
 > UNIS 공식 웹사이트 백엔드 저장소입니다.
 
@@ -92,7 +94,40 @@ docs: README 브랜치 전략 추가
 - 코드 스타일은 프로젝트 내 formatter 또는 기존 코드 스타일을 따릅니다.
 - 외부 API 키나 비밀 설정 정보는 `.env` 또는 환경변수로 관리하고, 절대 커밋하지 않습니다.
 - 배포는 `main` 브랜치에 머지될 때 자동으로 수행됩니다 (Docker + GitHub Actions).
-- 환경별 설정 파일은 application-{profile}.properties로 관리하며, 활성화는 spring.profiles.active로 지정합니다.
-  - 예: application-local.properties, application-prod.properties
-  - 로컬 실행 시: application.properties에 spring.profiles.active=local 명시
-  - 배포 환경은 GitHub Actions에서 환경변수로 prod 지정
+- 환경별 설정 파일은 `application-{profile}.properties`로 관리하며, 활성화는 `spring.profiles.active`로 지정합니다.
+  - 예: `application-local.properties`, `application-prod.properties`
+  - 로컬 실행 시: `application.properties`에 `spring.profiles.active=local` 명시
+  - 배포 환경은 GitHub Actions에서 환경변수로 `prod` 지정
+
+- Swagger 문서는 `@Tag`, `@Operation(summary = "...")`, `@Parameter(description = "...")`를 사용해 명확하게 작성합니다.
+  - 예시:
+    ```java
+    @Operation(summary = "프로젝트 목록 조회")
+    @GetMapping("/projects")
+    public ApiResponse<List<ProjectResponse>> getProjects() { ... }
+    ```
+
+- DTO에는 `@NotNull`, `@Size`, `@Email` 등의 유효성 검증 애노테이션을 사용하고, Controller에서는 반드시 `@Valid`를 사용합니다.
+  - 예시:
+    ```java
+    public class CreateProjectRequest {
+        @NotNull @Size(min = 1, max = 100)
+        private String title;
+    }
+
+    @PostMapping("/projects")
+    public ApiResponse<Void> create(@Valid @RequestBody CreateProjectRequest request) { ... }
+    ```
+
+- DTO/Controller 네이밍은 다음과 같이 통일합니다:
+  - 컨트롤러: `XxxController`
+  - 서비스: `XxxService`
+  - 요청 DTO: `CreateXxxRequest`, `UpdateXxxRequest`
+  - 응답 DTO: `XxxResponse`
+
+- 날짜/시간은 `LocalDateTime`을 기본으로 사용하며, 필요 시 DTO에서 `@JsonFormat`을 사용합니다.
+  - 예시:
+    ```java
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime createdAt;
+    ```
