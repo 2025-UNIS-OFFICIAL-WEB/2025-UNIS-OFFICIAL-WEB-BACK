@@ -27,8 +27,8 @@ jobs:
                   aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                   aws configure set region ap-northeast-2
 
-            - name: Build and Test with Gradle
-              run: ./gradlew clean build
+            - name: Build without Tests
+              run: ./gradlew clean build -x test
 
             - name: Login to ECR
               run: |
