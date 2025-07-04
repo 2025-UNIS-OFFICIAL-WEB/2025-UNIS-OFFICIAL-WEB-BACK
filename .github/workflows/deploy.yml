@@ -27,15 +27,8 @@ jobs:
                   aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                   aws configure set region ap-northeast-2
 
-            - name: Create .env file for tests
-              run: |
-                  echo "SPRING_DATASOURCE_URL=${{ secrets.DB_URL }}" > .env
-                  echo "SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
-                  echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-
-            - name: Build and Test
-              run: |
-                  ./gradlew clean build
+            - name: Build and Test with Gradle
+              run: ./gradlew clean build
 
             - name: Login to ECR
               run: |
