@@ -53,12 +53,14 @@ jobs:
                     docker rm -f admin-server || true
 
                     docker run -d --name api-server \
+                      -e SPRING_PROFILES_ACTIVE=api \
                       -e SPRING_DATASOURCE_URL=${{ secrets.DB_URL }} \
                       -e SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }} \
                       -e SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }} \
                       -p 8080:8080 ${{ secrets.ECR_REPOSITORY }}:api-server
 
                     docker run -d --name admin-server \
+                      -e SPRING_PROFILES_ACTIVE=admin \
                       -e SPRING_DATASOURCE_URL=${{ secrets.DB_URL }} \
                       -e SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }} \
                       -e SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }} \
