@@ -15,7 +15,10 @@ import java.util.List;
         title = "UNIS API 문서",
         description = "UNIS 공식 API 스펙입니다.",
         version = "v1.0"
-    )
+    ),
+    servers = {
+        @io.swagger.v3.oas.annotations.servers.Server(url = "https://api-unis.com")
+    }
 )
 public class SwaggerConfig {
 
