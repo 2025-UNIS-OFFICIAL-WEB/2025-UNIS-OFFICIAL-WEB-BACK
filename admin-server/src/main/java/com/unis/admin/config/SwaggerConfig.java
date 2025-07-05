@@ -21,9 +21,4 @@ import java.util.List;
     }
 )public class SwaggerConfig {
 
-    @Bean
-    public OpenAPI adminOpenAPI() {
-        return new OpenAPI()
-            .servers(List.of(new Server().url("https://admin-unis.com")));
-    }
 }
