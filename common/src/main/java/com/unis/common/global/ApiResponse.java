@@ -1,4 +1,4 @@
-package com.unis.api.global;
+package com.unis.common.global;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
