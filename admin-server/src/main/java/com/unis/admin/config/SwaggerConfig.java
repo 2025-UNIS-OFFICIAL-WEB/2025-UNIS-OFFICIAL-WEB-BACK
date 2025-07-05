@@ -17,10 +17,13 @@ import java.util.List;
         title = "UNIS 관리자 API 문서",
         description = "UNIS Admin 백엔드 API 스펙입니다.",
         version = "v1.0"
-    ),
-    servers = {
-        @io.swagger.v3.oas.annotations.servers.Server(url = "https://admin-unis.com")
-    }
-)public class SwaggerConfig {
+    )
+)
+public class SwaggerConfig {
 
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+            .servers(List.of(new Server().url("https://admin-unis.com")));
+    }
 }

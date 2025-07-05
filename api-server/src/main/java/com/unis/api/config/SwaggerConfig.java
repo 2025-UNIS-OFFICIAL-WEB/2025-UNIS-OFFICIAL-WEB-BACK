@@ -14,13 +14,16 @@ import java.util.List;
 @Configuration
 @OpenAPIDefinition(
     info = @Info(
-        title = "UNIS API 문서",
-        description = "UNIS 공식 API 스펙입니다.",
+        title = "UNIS 공식 웹사이트 API 문서",
+        description = "UNIS 백엔드 API 스펙입니다.",
         version = "v1.0"
-    ),
-    servers = {
-        @io.swagger.v3.oas.annotations.servers.Server(url = "https://api-unis.com")
-    }
+    )
 )
 public class SwaggerConfig {
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+            .servers(List.of(new Server().url("https://api-unis.com")));
+    }
 }
