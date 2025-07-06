@@ -28,7 +28,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid LoginRequest request) {
         if (adminUsername.equals(request.getUsername()) && adminPassword.equals(request.getPassword())) {
-            String role = "ADMIN";
+            String role = "ROLE_ADMIN";
             String accessToken = jwtTokenProvider.createToken(adminUsername, role);
             String refreshToken = jwtTokenProvider.createToken(adminUsername, role); // 동일 구조로 발급
             return ResponseEntity.ok(ApiResponse.success(new TokenResponse(accessToken, refreshToken)));

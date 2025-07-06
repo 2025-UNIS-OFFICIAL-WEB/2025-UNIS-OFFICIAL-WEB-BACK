@@ -10,7 +10,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    private final String secretKey = "your-secret-key-should-be-at-least-256-bits-long";
+    private final String secretKey = "JFn5vF3k39RpBaL9Fv8nD9kZ2BvV0TpjrIlXGwHQamQ=";
     private final long expirationMs = 1000 * 60 * 60; // 1시간
 
     private final Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
