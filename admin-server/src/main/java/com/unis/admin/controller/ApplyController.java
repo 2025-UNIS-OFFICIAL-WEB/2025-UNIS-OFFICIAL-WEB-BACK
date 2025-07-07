@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class ApplyController {
     private final ApplyService applyService;
 
-    @PutMapping("/")
+    @PutMapping("")
     public ResponseEntity<ApiResponse<?>> putApplyInfo(@RequestBody @Valid PutApplyInfoRequest request) {
         applyService.putApplyInfo(request);
         return ResponseEntity.ok(ApiResponse.success(null));
