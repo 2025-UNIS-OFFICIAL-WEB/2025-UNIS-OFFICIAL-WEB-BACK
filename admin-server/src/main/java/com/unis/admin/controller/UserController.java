@@ -29,8 +29,8 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody @Valid LoginRequest request) {
         if (adminUsername.equals(request.getUsername()) && adminPassword.equals(request.getPassword())) {
             String role = "ROLE_ADMIN";
-            String accessToken = jwtTokenProvider.createToken(adminUsername, role);
-            String refreshToken = jwtTokenProvider.createToken(adminUsername, role); // 동일 구조로 발급
+            String accessToken = jwtTokenProvider.createAccessToken(adminUsername, role);
+            String refreshToken = jwtTokenProvider.createRefreshToken(adminUsername, role); // 동일 구조로 발급
             return ResponseEntity.ok(ApiResponse.success(new TokenResponse(accessToken, refreshToken)));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -46,7 +46,7 @@ public class UserController {
             String role = jwtTokenProvider.getRole(token);
 
             if (adminUsername.equals(username) && "ROLE_ADMIN".equals(role)) {
-                String newAccessToken = jwtTokenProvider.createToken(username, role);
+                String newAccessToken = jwtTokenProvider.createRefreshToken(username, role);
                 return ResponseEntity.ok(ApiResponse.success(new TokenResponse(newAccessToken, token)));
             }
         }

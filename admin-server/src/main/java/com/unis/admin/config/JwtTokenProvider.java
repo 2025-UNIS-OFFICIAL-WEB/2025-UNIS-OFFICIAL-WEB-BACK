@@ -15,12 +15,22 @@ public class JwtTokenProvider {
 
     private final Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
 
-    public String createToken(String username, String role) {
+    public String createAccessToken(String username, String role) {
         return Jwts.builder()
             .setSubject(username)
             .claim("role", role)
             .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
+            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1시간
+            .signWith(key, SignatureAlgorithm.HS256)
+            .compact();
+    }
+
+    public String createRefreshToken(String username, String role) {
+        return Jwts.builder()
+            .setSubject(username)
+            .claim("role", role)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 14)) // 2주
             .signWith(key, SignatureAlgorithm.HS256)
             .compact();
     }
