@@ -24,6 +24,7 @@ dependencies {
     implementation 'software.amazon.awssdk:auth:2.20.154'
 
     // Spring
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
