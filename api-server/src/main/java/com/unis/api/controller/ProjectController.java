@@ -19,7 +19,7 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class ProjectController {
     private final ProjectService projectService;
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<ApiResponse<?>> getProjects() {
         ArrayList<GetProjectsResponse> responses = projectService.getProjects();
         return (responses != null)?
