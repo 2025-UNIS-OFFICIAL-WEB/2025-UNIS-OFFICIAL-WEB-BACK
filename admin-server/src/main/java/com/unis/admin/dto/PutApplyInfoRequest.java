@@ -9,6 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PutApplyLinkRequest {
+public class PutApplyInfoRequest {
+    private Boolean isAvailable;
     private String applyUrl;
 }

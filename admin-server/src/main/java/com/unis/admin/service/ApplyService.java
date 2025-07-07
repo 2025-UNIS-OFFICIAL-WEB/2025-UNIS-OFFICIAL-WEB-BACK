@@ -1,9 +1,9 @@
 package com.unis.admin.service;
 
-import com.unis.admin.dto.PostIsAvailableResponse;
-import com.unis.admin.dto.PutApplyLinkRequest;
+import com.unis.admin.dto.PutApplyInfoRequest;
 import com.unis.common.domain.ApplySetting;
 import com.unis.common.repository.ApplySettingRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,19 +12,10 @@ import org.springframework.stereotype.Service;
 public class ApplyService {
     private final ApplySettingRepository applySettingRepository;
 
-    public void putApplyLink(PutApplyLinkRequest request) {
+    public void putApplyInfo(@Valid PutApplyInfoRequest request) {
         ApplySetting setting = applySettingRepository.findById(1).orElse(null);
         setting.setApplyUrl(request.getApplyUrl());
+        setting.setIsAvailable(request.getIsAvailable());
         applySettingRepository.save(setting);
-    }
-
-    public PostIsAvailableResponse postIsAvailable() {
-        ApplySetting setting = applySettingRepository.findById(1).orElse(null);
-        if (setting.getIsAvailable())
-            setting.setIsAvailable(false);
-        else
-            setting.setIsAvailable(true);
-        ApplySetting saved = applySettingRepository.save(setting);
-        return new PostIsAvailableResponse(saved.getIsAvailable());
     }
 }

@@ -1,7 +1,6 @@
 package com.unis.admin.controller;
 
-import com.unis.admin.dto.PostIsAvailableResponse;
-import com.unis.admin.dto.PutApplyLinkRequest;
+import com.unis.admin.dto.PutApplyInfoRequest;
 import com.unis.admin.service.ApplyService;
 import com.unis.common.global.ApiResponse;
 import jakarta.validation.Valid;
@@ -15,15 +14,9 @@ import org.springframework.web.bind.annotation.*;
 public class ApplyController {
     private final ApplyService applyService;
 
-    @PutMapping("/link")
-    public ResponseEntity<ApiResponse<?>> putApplyLink(@RequestBody @Valid PutApplyLinkRequest request) {
-        applyService.putApplyLink(request);
+    @PutMapping("/")
+    public ResponseEntity<ApiResponse<?>> putApplyInfo(@RequestBody @Valid PutApplyInfoRequest request) {
+        applyService.putApplyInfo(request);
         return ResponseEntity.ok(ApiResponse.success(null));
-    }
-
-    @PostMapping("/available")
-    public ResponseEntity<ApiResponse<?>> postIsAvailable() {
-        PostIsAvailableResponse response = applyService.postIsAvailable();
-        return ResponseEntity.ok(ApiResponse.success(response));
     }
 }
