@@ -63,9 +63,7 @@ public class ProjectController {
 
     @DeleteMapping("/{projectId}/delete")
     public ResponseEntity<ApiResponse<?>> deleteProject(@PathVariable("projectId") Integer projectId) {
-        DeleteProjectResponse response = projectService.deleteProject(projectId);
-        return (response != null)?
-            ResponseEntity.ok(ApiResponse.success(response)):
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.error(500, "프로젝트 삭제에 실패했습니다."));
+        projectService.deleteProject(projectId);
+        return ResponseEntity.ok(ApiResponse.success(null));
     }
 }

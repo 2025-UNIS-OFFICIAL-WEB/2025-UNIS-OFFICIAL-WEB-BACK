@@ -38,6 +38,7 @@ public class ProjectService {
     public GetProjectResponse getProject(Integer projectId) {
         Project project = projectRepository.findById(projectId)
             .orElseThrow(()  -> new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다."));
+        if (project.getIsDeleted()) throw new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다.");
         return new GetProjectResponse(
             project.getImageUrl(),
             project.getServiceName(),
@@ -52,12 +53,16 @@ public class ProjectService {
     public void putProject(Integer projectId, PutProjectRequest request, String imageUrl) {
         Project project = projectRepository.findById(projectId)
             .orElseThrow(() -> new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다."));
+        if (project.getIsDeleted()) throw new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다.");
 
         request.applyTo(project, imageUrl);
         projectRepository.save(project);
     }
 
-    public DeleteProjectResponse deleteProject(Integer projectId) {
-        return null;
+    public void deleteProject(Integer projectId) {
+        Project project = projectRepository.findById(projectId)
+            .orElseThrow(() ->  new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다."));
+        project.setIsDeleted(true);
+        projectRepository.save(project);
     }
 }
