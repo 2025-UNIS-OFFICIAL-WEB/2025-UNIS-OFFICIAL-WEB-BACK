@@ -45,7 +45,7 @@ public class UserController {
             String username = jwtTokenProvider.getUsername(token);
             String role = jwtTokenProvider.getRole(token);
 
-            if (adminUsername.equals(username) && "ADMIN".equals(role)) {
+            if (adminUsername.equals(username) && "ROLE_ADMIN".equals(role)) {
                 String newAccessToken = jwtTokenProvider.createToken(username, role);
                 return ResponseEntity.ok(ApiResponse.success(new TokenResponse(newAccessToken, token)));
             }
