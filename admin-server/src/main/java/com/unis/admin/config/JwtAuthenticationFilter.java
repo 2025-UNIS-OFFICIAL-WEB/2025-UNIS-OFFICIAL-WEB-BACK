@@ -33,9 +33,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
 
+
             if (jwtTokenProvider.validateToken(token)) {
                 String username = jwtTokenProvider.getUsername(token);
                 String role = jwtTokenProvider.getRole(token); // ex: ROLE_ADMIN
+
+                System.out.println("==== JWT 인증 필터 진입 ====");
+                System.out.println("Authorization 헤더: " + authHeader);
+                System.out.println("username: " + username);
+                System.out.println("role: " + role);
+                System.out.println("SecurityContextHolder 등록됨");
 
                 var auth = new UsernamePasswordAuthenticationToken(
                     username,
