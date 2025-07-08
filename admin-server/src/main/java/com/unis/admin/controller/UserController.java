@@ -19,22 +19,19 @@ public class UserController {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Value("${admin.username}")
-    private String adminUsername;
-
     @Value("${admin.password}")
     private String adminPassword;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid LoginRequest request) {
-        if (adminUsername.equals(request.getUsername()) && adminPassword.equals(request.getPassword())) {
+        if (adminPassword.equals(request.getPassword())) {
             String role = "ROLE_ADMIN";
-            String accessToken = jwtTokenProvider.createAccessToken(adminUsername, role);
-            String refreshToken = jwtTokenProvider.createRefreshToken(adminUsername, role); // 동일 구조로 발급
+            String accessToken = jwtTokenProvider.createAccessToken("admin", role);
+            String refreshToken = jwtTokenProvider.createRefreshToken("admin", role);
             return ResponseEntity.ok(ApiResponse.success(new TokenResponse(accessToken, refreshToken)));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-            .body(ApiResponse.error(401, "아이디 또는 비밀번호가 일치하지 않습니다."));
+            .body(ApiResponse.error(401, "비밀번호가 일치하지 않습니다."));
     }
 
     @PostMapping("/refresh")
@@ -45,8 +42,8 @@ public class UserController {
             String username = jwtTokenProvider.getUsername(token);
             String role = jwtTokenProvider.getRole(token);
 
-            if (adminUsername.equals(username) && "ROLE_ADMIN".equals(role)) {
-                String newAccessToken = jwtTokenProvider.createRefreshToken(username, role);
+            if ("admin".equals(username) && "ROLE_ADMIN".equals(role)) {
+                String newAccessToken = jwtTokenProvider.createAccessToken("admin", role);
                 return ResponseEntity.ok(ApiResponse.success(new TokenResponse(newAccessToken, token)));
             }
         }
