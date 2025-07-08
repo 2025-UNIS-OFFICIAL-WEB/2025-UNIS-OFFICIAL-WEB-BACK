@@ -22,7 +22,7 @@ public class ProjectController {
     private final ProjectService projectService;
     private final S3Service s3Service;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<ApiResponse<?>> getProjects() {
         ArrayList<GetProjectsResponse> responses = projectService.getProjects();
         return (responses != null)?
