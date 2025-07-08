@@ -70,6 +70,7 @@ public class ProjectService {
     public void deleteProject(Integer projectId) {
         Project project = projectRepository.findById(projectId)
             .orElseThrow(() ->  new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다."));
+        if (project.getIsDeleted()) throw new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다.");
         project.setIsDeleted(true);
         projectRepository.save(project);
     }
