@@ -14,7 +14,15 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
 
     public ArrayList<GetProjectsResponse> getProjects() {
-        return null;
+        ArrayList<Project> projects = projectRepository.findByIsDeletedFalseOrderByGenerationDescProjectIdAsc();
+        ArrayList<GetProjectsResponse> responses = new ArrayList<>();
+        for (Project project : projects)
+            responses.add(new GetProjectsResponse(
+                project.getImageUrl(),
+                project.getServiceName(),
+                project.getShortDescription()
+            ));
+        return responses;
     }
 
     public PostProjectResponse postProject(PostProjectRequest request, String imageUrl) {
