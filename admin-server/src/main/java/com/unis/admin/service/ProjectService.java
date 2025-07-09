@@ -18,8 +18,9 @@ public class ProjectService {
         ArrayList<GetProjectsResponse> responses = new ArrayList<>();
         for (Project project : projects)
             responses.add(new GetProjectsResponse(
-                project.getImageUrl(),
+                project.getProjectId(),
                 project.getServiceName(),
+                project.getGeneration(),
                 project.getShortDescription()
             ));
         return responses;

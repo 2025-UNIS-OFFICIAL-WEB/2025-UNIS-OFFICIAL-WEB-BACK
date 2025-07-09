@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GetProjectsResponse {
+    private Integer projectId;
     private String imageUrl;
     private String serviceName;
     private String shortDescription;
