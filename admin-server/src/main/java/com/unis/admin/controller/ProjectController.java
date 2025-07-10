@@ -51,7 +51,7 @@ public class ProjectController {
 
     @PutMapping(value = "/{projectId}/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<?>> putProject(@PathVariable("projectId") Integer projectId,
-                                                     @RequestPart("data") PutProjectRequest request,
+                                                     @RequestPart("data") @Valid PutProjectRequest request,
                                                      @RequestPart(value = "image", required = false) MultipartFile image) {
         String imageUrl = null;
         if (image != null && !image.isEmpty()) {
