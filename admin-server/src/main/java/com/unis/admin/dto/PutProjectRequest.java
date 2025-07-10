@@ -18,6 +18,8 @@ public class PutProjectRequest {
     private String instagramUrl;
     private String etcUrl;
     private Integer generation;
+    private Boolean isAlumni;
+    private Boolean isOfficial;
 
     public void applyTo(Project project, String imageUrl) {
         project.setImageUrl(imageUrl);
@@ -26,6 +28,9 @@ public class PutProjectRequest {
         project.setDescription(this.description);
         project.setGithubUrl(this.githubUrl);
         project.setInstagramUrl(this.instagramUrl);
+        project.setEtcUrl(this.etcUrl);
         project.setGeneration(this.generation);
+        project.setIsAlumni(this.isAlumni);
+        project.setIsOfficial(this.isOfficial);
     }
 }
