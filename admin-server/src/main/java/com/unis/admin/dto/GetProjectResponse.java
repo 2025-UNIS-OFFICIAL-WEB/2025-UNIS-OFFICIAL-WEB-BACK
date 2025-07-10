@@ -16,5 +16,8 @@ public class GetProjectResponse {
     private String description;
     private String githubUrl;
     private String instagramUrl;
+    private String etcUrl;
     private Integer generation;
+    private Boolean isAlumni;
+    private Boolean isOfficial;
 }

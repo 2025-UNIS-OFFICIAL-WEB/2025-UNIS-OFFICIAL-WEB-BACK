@@ -37,9 +37,18 @@ public class Project {
     @Column(name = "instagram_url")
     private String instagramUrl;
 
+    @Column(name = "etc_url")
+    private String etcUrl;
+
     @Column(name = "generation", nullable = false)
     private Integer generation;
 
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = false;
+
+    @Column(name = "is_alumni", nullable = false)
+    private Boolean isAlumni = false;
+
+    @Column(name = "is_official", nullable = false)
+    private Boolean isOfficial = true;
 }

@@ -35,8 +35,11 @@ public class ProjectService {
             request.getDescription(),
             request.getGithubUrl(),
             request.getInstagramUrl(),
+            request.getEtcUrl(),
             request.getGeneration(),
-            false
+            false,
+            request.getIsAlumni(),
+            request.getIsOfficial()
         );
         Project saved = projectRepository.save(project);
         return (saved != null)?
@@ -55,7 +58,10 @@ public class ProjectService {
             project.getDescription(),
             project.getGithubUrl(),
             project.getInstagramUrl(),
-            project.getGeneration()
+            project.getEtcUrl(),
+            project.getGeneration(),
+            project.getIsAlumni(),
+            project.getIsOfficial()
         );
     }
 

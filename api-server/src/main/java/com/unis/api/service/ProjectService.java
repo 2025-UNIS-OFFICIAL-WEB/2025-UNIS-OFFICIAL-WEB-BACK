@@ -22,7 +22,9 @@ public class ProjectService {
                 project.getProjectId(),
                 project.getImageUrl(),
                 project.getServiceName(),
-                project.getShortDescription()
+                project.getShortDescription(),
+                project.getIsAlumni(),
+                project.getIsOfficial()
             ));
         return responses;
     }
@@ -39,6 +41,7 @@ public class ProjectService {
             project.getDescription(),
             project.getGithubUrl(),
             project.getInstagramUrl(),
+            project.getEtcUrl(),
             project.getGeneration()
         );
     }

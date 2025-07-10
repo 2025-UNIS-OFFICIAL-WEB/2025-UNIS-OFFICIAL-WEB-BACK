@@ -16,6 +16,7 @@ public class PutProjectRequest {
     private String description;
     private String githubUrl;
     private String instagramUrl;
+    private String etcUrl;
     private Integer generation;
 
     public void applyTo(Project project, String imageUrl) {
