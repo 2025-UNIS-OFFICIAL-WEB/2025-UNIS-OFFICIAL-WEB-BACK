@@ -9,6 +9,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -17,6 +22,29 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomAuthenticationEntryPoint customEntryPoint;
+
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+
+        // 허용할 Origin
+        config.setAllowedOrigins(List.of("http://localhost:5173", "https://unis-admin.vercel.app"));
+
+        // 허용할 HTTP 메서드
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        // 허용할 헤더
+        config.setAllowedHeaders(List.of("*"));
+
+        // Authorization 헤더 사용 가능하도록 설정
+        config.setAllowCredentials(true);
+
+        // URL 매핑
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return new CorsFilter(source);
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
