@@ -13,6 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PutProjectRequest {
+    private String imageUrl;
     @NotBlank(message = "서비스 이름은 필수입니다.")
     private String serviceName;
     @NotBlank(message = "서비스 한 줄 소개는 필수입니다.")
@@ -30,7 +31,12 @@ public class PutProjectRequest {
     private Boolean isOfficial;
 
     public void applyTo(Project project, String imageUrl) {
-        project.setImageUrl(imageUrl);
+        if (imageUrl != null) {
+            project.setImageUrl(imageUrl); // 새 이미지로 덮어씀
+        } else if (this.imageUrl != null) {
+            project.setImageUrl(this.imageUrl); // 기존 이미지 유지
+        }
+        // 그 외 필드 업데이트
         project.setServiceName(this.serviceName);
         project.setShortDescription(this.shortDescription);
         project.setDescription(this.description);
