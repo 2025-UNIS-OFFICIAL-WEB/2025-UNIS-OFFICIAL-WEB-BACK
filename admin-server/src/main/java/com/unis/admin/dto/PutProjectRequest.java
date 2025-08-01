@@ -22,7 +22,7 @@ public class PutProjectRequest {
     private String githubUrl;
     private String instagramUrl;
     private String etcUrl;
-    @NotBlank(message = "기수는 필수입니다.")
+    @NotNull(message = "기수는 필수입니다.")
     private Integer generation;
     @NotNull(message = "창업팀 여부는 필수입니다.")
     private Boolean isAlumni;
