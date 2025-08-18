@@ -16,7 +16,7 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // 허용할 origin
-        config.setAllowedOrigins(List.of("http://localhost:5173", "https://unis-ewha.com"));
+        config.setAllowedOrigins(List.of("http://localhost:5173", "https://unis-ewha.com", "https://www.unis-ewha.com"));
 
         // 허용할 HTTP 메서드
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
