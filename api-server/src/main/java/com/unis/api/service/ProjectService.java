@@ -23,6 +23,7 @@ public class ProjectService {
                 project.getImageUrl(),
                 project.getServiceName(),
                 project.getShortDescription(),
+                project.getGeneration(),
                 project.getIsAlumni(),
                 project.getIsOfficial()
             ));

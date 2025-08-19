@@ -14,6 +14,7 @@ public class GetProjectsResponse {
     private String imageUrl;
     private String serviceName;
     private String shortDescription;
+    private Integer generation;
     private Boolean isAlumni;
     private Boolean isOfficial;
 }
