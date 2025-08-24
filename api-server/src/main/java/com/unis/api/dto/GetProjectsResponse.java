@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 public class GetProjectsResponse {
     private Integer projectId;
-    private String imageUrl;
+    private ArrayList<String> imageUrls;
     private String serviceName;
     private String shortDescription;
     private Integer generation;

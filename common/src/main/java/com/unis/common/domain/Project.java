@@ -19,9 +19,6 @@ public class Project {
     @Column(name = "project_id")
     private Integer projectId;
 
-    @Column(name = "image_url", nullable = false)
-    private String imageUrl;
-
     @Column(name = "service_name", nullable = false, length = 100)
     private String serviceName;
 

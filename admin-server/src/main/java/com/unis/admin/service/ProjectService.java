@@ -2,16 +2,20 @@ package com.unis.admin.service;
 
 import com.unis.admin.dto.*;
 import com.unis.common.domain.Project;
+import com.unis.common.domain.ProjectImage;
+import com.unis.common.repository.ProjectImageRepository;
 import com.unis.common.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ProjectService {
     private final ProjectRepository projectRepository;
+    private final ProjectImageRepository projectImageRepository;
 
     public ArrayList<GetProjectsResponse> getProjects() {
         ArrayList<Project> projects = projectRepository.findByIsDeletedFalseOrderByGenerationDescProjectIdAsc();
@@ -26,10 +30,9 @@ public class ProjectService {
         return responses;
     }
 
-    public PostProjectResponse postProject(PostProjectRequest request, String imageUrl) {
+    public PostProjectResponse postProject(PostProjectRequest request, List<String> imageUrls) {
         Project project = new Project(
             null,
-            imageUrl,
             request.getServiceName(),
             request.getShortDescription(),
             request.getDescription(),
@@ -41,6 +44,14 @@ public class ProjectService {
             request.getIsAlumni(),
             request.getIsOfficial()
         );
+        for (String imageUrl : imageUrls) {
+            ProjectImage projectImage = ProjectImage.builder()
+                .id(null)
+                .project(project)
+                .url(imageUrl)
+                .build();
+            projectImageRepository.save(projectImage);
+        }
         Project saved = projectRepository.save(project);
         return (saved != null)?
             new PostProjectResponse(saved.getProjectId()):
@@ -52,7 +63,7 @@ public class ProjectService {
             .orElseThrow(()  -> new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다."));
         if (project.getIsDeleted()) throw new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다.");
         return new GetProjectResponse(
-            project.getImageUrl(),
+            projectImageRepository.findAllByProject(project),
             project.getServiceName(),
             project.getShortDescription(),
             project.getDescription(),
@@ -65,12 +76,12 @@ public class ProjectService {
         );
     }
 
-    public void putProject(Integer projectId, PutProjectRequest request, String imageUrl) {
+    public void putProject(Integer projectId, PutProjectRequest request, List<String> imageUrls) {
         Project project = projectRepository.findById(projectId)
             .orElseThrow(() -> new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다."));
         if (project.getIsDeleted()) throw new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다.");
 
-        request.applyTo(project, imageUrl);
+        request.applyTo(project, imageUrls);
         projectRepository.save(project);
     }
 

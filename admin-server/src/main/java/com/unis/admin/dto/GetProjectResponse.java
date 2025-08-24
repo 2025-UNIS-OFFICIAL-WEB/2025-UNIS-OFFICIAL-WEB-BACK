@@ -5,12 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 public class GetProjectResponse {
-    private String imageUrl;
+    private ArrayList<String> imageUrls;
     private String serviceName;
     private String shortDescription;
     private String description;

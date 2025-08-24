@@ -3,6 +3,7 @@ package com.unis.api.service;
 import com.unis.api.dto.GetProjectResponse;
 import com.unis.api.dto.GetProjectsResponse;
 import com.unis.common.domain.Project;
+import com.unis.common.repository.ProjectImageRepository;
 import com.unis.common.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class ProjectService {
     private final ProjectRepository projectRepository;
+    private final ProjectImageRepository projectImageRepository;
 
     public ArrayList<GetProjectsResponse> getProjects() {
         ArrayList<Project> projects = projectRepository.findByIsDeletedFalseOrderByGenerationDescProjectIdAsc();
@@ -20,7 +22,7 @@ public class ProjectService {
         for (Project project : projects)
             responses.add(new GetProjectsResponse(
                 project.getProjectId(),
-                project.getImageUrl(),
+                projectImageRepository.findAllByProject(project),
                 project.getServiceName(),
                 project.getShortDescription(),
                 project.getGeneration(),
@@ -36,7 +38,7 @@ public class ProjectService {
         if (project.getIsDeleted()) throw new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다.");
 
         return new GetProjectResponse(
-            project.getImageUrl(),
+            projectImageRepository.findAllByProject(project),
             project.getServiceName(),
             project.getShortDescription(),
             project.getDescription(),

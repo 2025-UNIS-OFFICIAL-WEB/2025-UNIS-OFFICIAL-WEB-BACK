@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,9 +33,9 @@ public class ProjectController {
 
     @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<?>> postProject(@RequestPart("data") @Valid PostProjectRequest request,
-                                                      @RequestPart("image") MultipartFile image) {
-        String imageUrl = s3Service.upload(image);
-        PostProjectResponse response = projectService.postProject(request, imageUrl);
+                                                      @RequestPart("image") List<MultipartFile> image) {
+        List<String> imageUrls = s3Service.upload(image);
+        PostProjectResponse response = projectService.postProject(request, imageUrls);
 
         return (response != null)?
             ResponseEntity.ok(ApiResponse.created(response)):
@@ -52,12 +53,12 @@ public class ProjectController {
     @PutMapping(value = "/{projectId}/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<?>> putProject(@PathVariable("projectId") Integer projectId,
                                                      @RequestPart("data") @Valid PutProjectRequest request,
-                                                     @RequestPart(value = "image", required = false) MultipartFile image) {
-        String imageUrl = null;
+                                                     @RequestPart(value = "image", required = false) ArrayList<MultipartFile> image) {
+        List<String> imageUrls = null;
         if (image != null && !image.isEmpty()) {
-            imageUrl = s3Service.upload(image);
+            imageUrls = s3Service.upload(image);
         }
-        projectService.putProject(projectId, request, imageUrl);
+        projectService.putProject(projectId, request, imageUrls);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
