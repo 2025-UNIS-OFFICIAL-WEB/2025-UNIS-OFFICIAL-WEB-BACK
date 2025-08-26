@@ -24,6 +24,6 @@ public class ApplySetting {
     @Column(name = "is_available", nullable = false)
     private Boolean isAvailable = false;
 
-    @Column(name = "apply_url", nullable = false)
+    @Column(name = "apply_url", nullable = true)
     private String applyUrl;
 }
